@@ -1,88 +1,96 @@
+import os
+from zipfile import ZipFile
+
+# Struttura del sito con file HTML e CSS base
+site_files = {
+    "index.html": """
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Alessandro Tonussi – Autore</title>
-  <style>
-    body {
-      font-family: 'Georgia', serif;
-      margin: 0;
-      padding: 0;
-      background: linear-gradient(to bottom right, #f2f2f2, #ddd);
-      color: #333;
-    }
-    header {
-      background-color: #1a1a1a;
-      color: white;
-      padding: 40px 20px;
-      text-align: center;
-    }
-    h1 {
-      margin: 0;
-      font-size: 2.5em;
-    }
-    p.subtitle {
-      font-style: italic;
-      color: #ccc;
-    }
-    main {
-      padding: 40px 20px;
-      max-width: 800px;
-      margin: auto;
-    }
-    section {
-      margin-bottom: 40px;
-    }
-    h2 {
-      border-bottom: 2px solid #333;
-      padding-bottom: 10px;
-    }
-    footer {
-      background-color: #1a1a1a;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      font-size: 0.9em;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alessandro Tonussi – Autore</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header>
-  <h1>Alessandro Tonussi</h1>
-  <p class="subtitle">Autore, narratore e viaggiatore nella mente umana</p>
-</header>
-
-<main>
-  <section>
-    <h2>Chi sono</h2>
-    <p>Benvenuto nel mio sito autore. Mi chiamo Alessandro Tonussi e scrivo romanzi che aprono portali. Creo storie per risvegliare coscienze e imprimere nell’anima qualcosa che resti. Scopri chi sono, cosa scrivo e dove puoi trovarmi.</p>
-  </section>
-
-  <section>
-    <h2>Libri</h2>
-    <ul>
-      <li><strong>L'Alchimista di Sacile</strong> (2025) – Thriller storico alchemico</li>
-      <li><strong>Vatican Spy Story</strong> (2019) – Intrigo e spionaggio in Vaticano</li>
-      <li><strong>Smoke on the Water</strong> (2001) – Dietro le quinte della più grande canzone rock</li>
-      <li><strong>Jack Ryan – Origini del Club 27</strong> (in arrivo a dicembre 2025)</li>
-    </ul>
-  </section>
-
-  <section>
-    <h2>Contatti</h2>
-    <p>Per collaborazioni, interviste o presentazioni:</p>
-    <ul>
-      <li>Email: <a href="mailto:aletonussi@gmail.com">aletonussi@gmail.com</a></li>
-      <li>Instagram: <a href="https://instagram.com/aletonussi" target="_blank">@aletonussi</a></li>
-    </ul>
-  </section>
-</main>
-
-<footer>
-  © 2025 Alessandro Tonussi – Tutti i diritti riservati
-</footer>
-
+    <header>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="libri.html">Libri</a></li>
+                <li><a href="progetti.html">Progetti</a></li>
+                <li><a href="media.html">Media</a></li>
+                <li><a href="contatti.html">Contatti</a></li>
+            </ul>
+        </nav>
+        <h1>Alessandro Tonussi</h1>
+        <p class="motto">«Non scrivo storie. Apro portali. Non cerco lettori. Risveglio coscienze. Non voglio il tempo. Voglio l’eternità.»</p>
+    </header>
+    <main>
+        <section>
+            <h2>Benvenuto nel mio sito autore!</h2>
+            <p>Qui troverai informazioni sui miei libri, progetti e attività culturali.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2025 Alessandro Tonussi. Tutti i diritti riservati.</p>
+    </footer>
 </body>
 </html>
+""",
+    "libri.html": "<!DOCTYPE html><html><head><title>Libri</title><link rel='stylesheet' href='style.css'></head><body><h1>I miei libri</h1><p>In questa pagina troverai la lista completa delle mie opere...</p><a href='index.html'>Torna alla Home</a></body></html>",
+    "progetti.html": "<!DOCTYPE html><html><head><title>Progetti</title><link rel='stylesheet' href='style.css'></head><body><h1>Progetti</h1><p>L'Alchimista di Sacile, ALMA – La Sacerdotessa Digitale, Jack Ryan e altri...</p><a href='index.html'>Torna alla Home</a></body></html>",
+    "media.html": "<!DOCTYPE html><html><head><title>Media</title><link rel='stylesheet' href='style.css'></head><body><h1>Media</h1><p>Foto, video, trailer e apparizioni pubbliche.</p><a href='index.html'>Torna alla Home</a></body></html>",
+    "contatti.html": "<!DOCTYPE html><html><head><title>Contatti</title><link rel='stylesheet' href='style.css'></head><body><h1>Contatti</h1><p>Scrivimi a: <a href='mailto:alessandro@email.com'>alessandro@email.com</a></p><a href='index.html'>Torna alla Home</a></body></html>",
+    "style.css": """
+body {
+    font-family: 'Merriweather', serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f1ec;
+    color: #333;
+}
+header {
+    background-color: #800000;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+footer {
+    background-color: #222;
+    color: #ccc;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
+}
+.motto {
+    font-style: italic;
+    margin-top: 10px;
+    color: #f4d03f;
+}
+"""
+}
+
+# Crea i file e inseriscili in uno ZIP
+zip_path = "/mnt/data/sito_autore_tonussi.zip"
+with ZipFile(zip_path, 'w') as zipf:
+    for filename, content in site_files.items():
+        file_path = f"/mnt/data/{filename}"
+        with open(file_path, "w") as f:
+            f.write(content)
+        zipf.write(file_path, arcname=filename)
+
+zip_path
