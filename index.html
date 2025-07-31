@@ -1,49 +1,98 @@
-import os
 from zipfile import ZipFile
 
-# Struttura del sito con file HTML e CSS base
+# Definizione dei file HTML e CSS corretti
 site_files = {
-    "index.html": """
-<!DOCTYPE html>
-<html lang="it">
+    "index.html": """<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alessandro Tonussi – Autore</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="libri.html">Libri</a></li>
-                <li><a href="progetti.html">Progetti</a></li>
-                <li><a href="media.html">Media</a></li>
-                <li><a href="contatti.html">Contatti</a></li>
-            </ul>
-        </nav>
         <h1>Alessandro Tonussi</h1>
         <p class="motto">«Non scrivo storie. Apro portali. Non cerco lettori. Risveglio coscienze. Non voglio il tempo. Voglio l’eternità.»</p>
     </header>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="libri.html">Libri</a></li>
+            <li><a href="progetti.html">Progetti</a></li>
+            <li><a href="media.html">Media</a></li>
+            <li><a href="contatti.html">Contatti</a></li>
+        </ul>
+    </nav>
     <main>
-        <section>
-            <h2>Benvenuto nel mio sito autore!</h2>
-            <p>Qui troverai informazioni sui miei libri, progetti e attività culturali.</p>
-        </section>
+        <h2>Benvenuto nel mio sito autore!</h2>
+        <p>Qui troverai informazioni sui miei libri, progetti e attività culturali.</p>
     </main>
     <footer>
-        <p>&copy; 2025 Alessandro Tonussi. Tutti i diritti riservati.</p>
+        <p>© 2025 Alessandro Tonussi. Tutti i diritti riservati.</p>
     </footer>
 </body>
-</html>
-""",
-    "libri.html": "<!DOCTYPE html><html><head><title>Libri</title><link rel='stylesheet' href='style.css'></head><body><h1>I miei libri</h1><p>In questa pagina troverai la lista completa delle mie opere...</p><a href='index.html'>Torna alla Home</a></body></html>",
-    "progetti.html": "<!DOCTYPE html><html><head><title>Progetti</title><link rel='stylesheet' href='style.css'></head><body><h1>Progetti</h1><p>L'Alchimista di Sacile, ALMA – La Sacerdotessa Digitale, Jack Ryan e altri...</p><a href='index.html'>Torna alla Home</a></body></html>",
-    "media.html": "<!DOCTYPE html><html><head><title>Media</title><link rel='stylesheet' href='style.css'></head><body><h1>Media</h1><p>Foto, video, trailer e apparizioni pubbliche.</p><a href='index.html'>Torna alla Home</a></body></html>",
-    "contatti.html": "<!DOCTYPE html><html><head><title>Contatti</title><link rel='stylesheet' href='style.css'></head><body><h1>Contatti</h1><p>Scrivimi a: <a href='mailto:alessandro@email.com'>alessandro@email.com</a></p><a href='index.html'>Torna alla Home</a></body></html>",
-    "style.css": """
-body {
+</html>""",
+
+    "libri.html": """<!DOCTYPE html>
+<html>
+<head>
+    <title>I miei libri</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>I miei libri</h1></header>
+    <main>
+        <p>In questa pagina troverai la lista completa delle mie opere…</p>
+        <p><a href="index.html">Torna alla Home</a></p>
+    </main>
+</body>
+</html>""",
+
+    "progetti.html": """<!DOCTYPE html>
+<html>
+<head>
+    <title>Progetti</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>Progetti</h1></header>
+    <main>
+        <p>L'Alchimista di Sacile, ALMA – La Sacerdotessa Digitale, Jack Ryan e altri…</p>
+        <p><a href="index.html">Torna alla Home</a></p>
+    </main>
+</body>
+</html>""",
+
+    "media.html": """<!DOCTYPE html>
+<html>
+<head>
+    <title>Media</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>Media</h1></header>
+    <main>
+        <p>Foto, video, trailer e apparizioni pubbliche.</p>
+        <p><a href="index.html">Torna alla Home</a></p>
+    </main>
+</body>
+</html>""",
+
+    "contatti.html": """<!DOCTYPE html>
+<html>
+<head>
+    <title>Contatti</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header><h1>Contatti</h1></header>
+    <main>
+        <p>Scrivimi a: <a href="mailto:alessandro@email.com">alessandro@email.com</a></p>
+        <p><a href="index.html">Torna alla Home</a></p>
+    </main>
+</body>
+</html>""",
+
+    "style.css": """body {
     font-family: 'Merriweather', serif;
     margin: 0;
     padding: 0;
@@ -59,6 +108,9 @@ header {
 nav ul {
     list-style-type: none;
     padding: 0;
+    text-align: center;
+    margin: 0;
+    background-color: #800000;
 }
 nav ul li {
     display: inline;
@@ -72,6 +124,31 @@ nav ul li a {
 footer {
     background-color: #222;
     color: #ccc;
+    text-align: center;
+    padding: 15px;
+    margin-top: 40px;
+}
+.motto {
+    font-style: italic;
+    margin-top: 10px;
+    color: #f4d03f;
+}
+main {
+    padding: 20px;
+    text-align: center;
+}"""
+}
+
+# Crea file ZIP
+zip_path = "/mnt/data/sito_autore_tonussi.zip"
+with ZipFile(zip_path, 'w') as zipf:
+    for filename, content in site_files.items():
+        file_path = f"/mnt/data/{filename}"
+        with open(file_path, "w") as f:
+            f.write(content)
+        zipf.write(file_path, arcname=filename)
+
+zip_path
     text-align: center;
     padding: 15px;
     margin-top: 40px;
